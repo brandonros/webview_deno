@@ -59,7 +59,7 @@ export class Webview {
   // We need Rust to call into V8 and Deno FFI callbacks *might* solve this.
   bind(name: string, cb: (seq: string, recv: Deno.UnsafePointer) => void) {
     sys.symbols.deno_webview_bind(this.#handle, encode(name));
-    sys.symbols.deno_webview_get_recv().then((recv) => {
+    sys.symbols.deno_webview_get_recv().then((recv: any) => {
       const ptr = new Deno.UnsafePointerView(recv as Deno.UnsafePointer);
       const lengthBe = new Uint8Array(4);
       const view = new DataView(lengthBe.buffer);
